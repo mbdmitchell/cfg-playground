@@ -7,7 +7,7 @@ const buffer = fs.readFileSync('ifelsev2.wasm');
 
 
 (async () => {
-    const obj = new WebAssembly.Module(buffer); // WebAssembly.Module(fs.readFileSync('ifelsev2.wasm'));
+    const obj = new WebAssembly.Module(buffer); 
 
     // Create an environment object
     const env = {
@@ -19,9 +19,19 @@ const buffer = fs.readFileSync('ifelsev2.wasm');
 
     // Create an instance of the module with the environment and memory objects
     const instance = new WebAssembly.Instance(obj, { env, js: { mem: memory } });
-    
-    instance.exports.OutputPath(node_1_direction);
 
-    //const memoryView = new Uint8Array(memory.buffer, 0, memory.buffer.byteLength);
+    instance.exports.OutputPath(node_1_direction); // result = mem add 0 content??
+
+    // Get a reference to the memory buffer
+    const memoryBuffer = instance.exports.memory.buffer;
+
+    // Create a DataView object to read from the memory buffer
+    const dataView = new DataView(memoryBuffer);
+
+    // Read a 32-bit integer from the memory buffer at offset 0
+    const value = dataView.getInt32(0, true);
+
+    console.log(`The value in memory is ${value}`);
     
 })();
+

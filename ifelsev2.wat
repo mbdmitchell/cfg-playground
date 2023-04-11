@@ -1,6 +1,8 @@
 (module 
     (import "env" "log" (func $log (param i32))) 
-    (memory 1)
+    (memory $memory 1)
+    (export "memory" (memory $memory))
+    
 
     ;; ------------------------------
     ;; ARRAY IMPLIMENTATION 
@@ -59,13 +61,15 @@
 
     (func (export "OutputPath")
         (param $node_1_direction i32)
-        ;;(result i32)
+        (result i32)
         
         (local $i i32) ;; for log loop at the end
+        
         (local $output_path i32)
         (local $counter i32)
 
         (local.set $i (i32.const 0)) ;; check local variables aren't initiated to 0 as default 
+        
         (local.set $counter (i32.const 0))
 
         ;; The first i32 records the beginning offset of available space
@@ -94,12 +98,14 @@
         ;; node %4 traversed
         (call $set (local.get $output_path) (local.get $counter) (i32.const 4))         ;; output_path[2] = 4
         
-        ;; log array
+
+        
+        ;; take a peek at the memory
         
         (loop $loopy_doop                                                               ;; while (i <= output path length)
-            (if (i32.lt_u (local.get $i)(call $len (local.get $output_path)))
+            (if (i32.lt_u (local.get $i)(i32.const 32))
                 (then
-                    (call $log (call $get (local.get $output_path) (local.get $i)))         ;; log output_path[i]
+                    (call $log (i32.load (local.get $i)))         ;; log output_path[i]
                     (local.set $i (i32.add (local.get $i)(i32.const 1)))                    ;; i++
                     (br $loopy_doop)
                 )                            
@@ -107,8 +113,7 @@
         )
         
         
-        ;;(i32.const 0)           ;; push the memory address of $output_path onto the stack
-        
+        (i32.load (i32.const 0)) ;; content of output_path[0]?
     )
 )
         
