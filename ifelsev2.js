@@ -1,3 +1,8 @@
+
+// EXAMPLE
+// $ node ifelsev2.js test/direction1.txt -> OUTPUT: file w/ [1,2,4]
+// $ node ifelsev2.js test/direction0.txt -> OUTPUT: file w/ [1,3,4]
+
 const fs = require('fs');
 
 function readJsonArrayFromFile(filename) {
@@ -5,7 +10,7 @@ function readJsonArrayFromFile(filename) {
     return JSON.parse(jsonString);
   }
 
-const directionArray = readJsonArrayFromFile(process.argv[2]); // will replace with direction filename
+const directionArray = readJsonArrayFromFile(process.argv[2]); 
 
 // Load the module from a binary file
 const buffer = fs.readFileSync('ifelsev2.wasm');
