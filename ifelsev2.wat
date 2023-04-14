@@ -34,10 +34,10 @@
 
     ;; create a array
     (func $arr (param $len i32) (result i32)
-        (local $offset i32)                              ;; offset
-        (local.set $offset (i32.load (i32.const 0)))     ;; load offset from the first i32
+        (local $offset i32)                             ;; offset
+        (local.set $offset (i32.load (i32.const 0)))    ;; load offset from the first i32
 
-        (i32.store (local.get $offset)(local.get $len))  ;; load the length
+        (i32.store (local.get $offset)(local.get $len)) ;; load the length
 
         (i32.store                                      ;; store offset of available space    
             (i32.const 0)               
@@ -49,7 +49,7 @@
                         (i32.const 4)
                     )
                 )
-                (i32.const 4)                     ;; the first i32 is the length
+                (i32.const 4)                            ;; the first i32 is the length
             )
         )
         (local.get $offset)                              ;; (return) the beginning offset of the array.
@@ -86,12 +86,12 @@
     (func (export "OutputPath")
         (param $node_1_direction i32)
         
-        (local $i i32) ;; for log loop at the end
+        ;; (local $i i32) ;; for `VIEW MEMORY` (cf. line 126)
         
         (local $output_path i32)
         (local $counter i32)
 
-        (local.set $i (i32.const 0)) ;; TODO: check local variables aren't initiated to 0 by default... 
+        ;; (local.set $i (i32.const 0)) ;; for `VIEW MEMORY` (cf. line 126)
         
         (local.set $counter (i32.const 0))
 
@@ -123,12 +123,12 @@
         
 
         (;
-        ;; take a peek at the memory
+        ;; `VIEW MEMORY`: take a peek at the memory contents
         
         (loop $loopy_doop                                                               
-            (if (i32.lt_u (local.get $i)(i32.const 32))
+            (if (i32.lt_u (local.get $i)(i32.const 128))
                 (then
-                    (call $log (i32.load (local.get $i)))         ;; log output_path[i]
+                    (call $log (i32.load (local.get $i)))         
                     (local.set $i (i32.add (local.get $i)(i32.const 1)))                    
                     (br $loopy_doop)
                 )                            
