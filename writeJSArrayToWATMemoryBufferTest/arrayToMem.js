@@ -54,31 +54,3 @@ const buffer = fs.readFileSync('arrayToMem.wasm');
 
 
 })();
-
-/*
-APPENDIX 
-
-Memory
------------
-20              
-50331648
-196608
-768
-3               <-- length
-16777216
-65536
-256
-1               <-- output_path[0]
-50331648
-196608
-768
-3               <-- output_path[1]
-67108864
-262144
-1024
-4               <-- output_path[2]
-0
-0
-0
-*/
-
