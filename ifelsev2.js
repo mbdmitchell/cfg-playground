@@ -30,7 +30,7 @@ const buffer = fs.readFileSync('ifelsev2.wasm');
     // Create an instance of the module with the environment and memory objects
     const instance = new WebAssembly.Instance(obj, { env, js: { mem: memory } });
 
-    instance.exports.OutputPath(directionArray[0]); // result = mem add 0 content??
+    instance.exports.OutputPath(directionArray[0]); // NB: in other CFG programs, directionArray will be written to WA mem before this point. The parameter could be the mem address it should start from
 
     // Get a reference to the memory buffer
     const memoryBuffer = instance.exports.memory.buffer;
@@ -39,9 +39,8 @@ const buffer = fs.readFileSync('ifelsev2.wasm');
     const dataView = new DataView(memoryBuffer);
 
     // Read a 32-bit integer from the memory buffer at offset 4 (this contains the no. of elements in the array)
-    const length = dataView.getInt32(4, true);
+    const length = dataView.getInt32(4, true); 
 
-    // console.log(`The value in memory is ${value}`);
     const pathTaken = [];
 
     for (let i = 0; i < length; i++){
